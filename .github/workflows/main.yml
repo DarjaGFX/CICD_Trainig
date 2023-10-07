@@ -7,15 +7,23 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: cicd_training
+    # environment: cicd_training
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Pull On VPS
+        env:
+          IP: ${{ secrets.HOST_IP }}
+          USER: ${{ secrets.HOST_USERNAME }}
+          PASS: ${{ secrets.HOST_PASSWORD }}
         run: |
-          sshpass -p ${{ secrets.HOST_PASSWORD }} ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "cd /root/cicd/CICD_Trainig && git pull"
+          sshpass -p $PASS ssh $USER@$IP "cd /root/cicd/CICD_Trainig && git pull"
       - name: Deploy to VPS
+        env:
+          IP: ${{ secrets.HOST_IP }}
+          USER: ${{ secrets.HOST_USERNAME }}
+          PASS: ${{ secrets.HOST_PASSWORD }}
         run: |
           sudo apt-get install -y sshpass
-          # sshpass -p ${{ secrets.HOST_PASSWORD }} ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "cd /root/cicd/CICD_Trainig && git pull; tmux kill-session -t mysession; tmux new-session -d -s mysession 'source /root/cicd/CICD_Trainig/.venv/bin/activate && pip install -r requirements.txt  && uvicorn main:app --host 0.0.0.0 --port 8089'"
-          sshpass -p ${{ secrets.HOST_PASSWORD }} ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "cd /root/cicd/CICD_Trainig && tmux new-session -d -s mysession 'source /root/cicd/CICD_Trainig/.venv/bin/activate && pip install -r requirements.txt  && uvicorn main:app --host 0.0.0.0 --port 8089 --reload'"
+          # sshpass -p $PASS ssh $USER@$IP "cd /root/cicd/CICD_Trainig && git pull; tmux kill-session -t mysession; tmux new-session -d -s mysession 'source /root/cicd/CICD_Trainig/.venv/bin/activate && pip install -r requirements.txt  && uvicorn main:app --host 0.0.0.0 --port 8089'"
+          sshpass -p $PASS ssh $USER@$IP "cd /root/cicd/CICD_Trainig && tmux new-session -d -s mysession 'source /root/cicd/CICD_Trainig/.venv/bin/activate && pip install -r requirements.txt  && uvicorn main:app --host 0.0.0.0 --port 8089 --reload'"
