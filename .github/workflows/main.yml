@@ -14,4 +14,4 @@ jobs:
       - name: Deploy to VPS
         run: |
           sudo apt-get install -y sshpass
-          sshpass -p ${{secrets.HOST_PASSWORD}} ssh ${{secrets.HOST_USERNAME}}@${{secrets.HOST_IP}} "cd /home/${{secrets.HOST_USERNAME}}/cicd/training && git pull; tmux kill-session -t mysession; tmux new-session -d -s mysession 'source /home/${{secrets.HOST_USERNAME}}/cicd/training/.venv/bin/activate && pip install -r requirements.txt  && uvicorn main:app --host 0.0.0.0 --port 8089'"
+          sshpass -p ${{secrets.HOST_PASSWORD}} ssh ${{secrets.HOST_USERNAME}}@${{secrets.HOST_IP}} "cd /root/cicd/CICD_Trainig && git pull; tmux kill-session -t mysession; tmux new-session -d -s mysession 'source /root/cicd/CICD_Trainig/.venv/bin/activate && pip install -r requirements.txt  && uvicorn main:app --host 0.0.0.0 --port 8089'"

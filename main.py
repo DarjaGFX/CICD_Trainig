@@ -8,7 +8,7 @@ from fastapi.responses import Response
 app = FastAPI()
 
 
-@app.route('/')
+@app.get('/')
 def index():
     return {'status': 200, 'data': "Hello, world!"}
 
