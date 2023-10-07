@@ -1,0 +1,19 @@
+name: FastAPI CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: cicd_training
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Deploy to VPS
+        run: |
+          echo ${{secrets.HOST_USERNAME}}
+          echo ${{secrets.HOST_IP}}
+          sudo apt-get install -y sshpass
+          sshpass -p ${{secrets.HOST_PASSWORD}} ssh ${{secrets.HOST_USERNAME}}@${{secrets.HOST_IP}} "cd /home/admin20/cicd/training && git pull; tmux kill-session -t mysession; tmux new-session -d -s mysession 'source /home/admin20/cicd/training/.venv/bin/activate && pip install -r requirements.txt  && uvicorn main:app --host 0.0.0.0 --port 8089'"
