@@ -10,7 +10,7 @@ app = FastAPI()
 
 @app.get('/')
 def index():
-    return {'status': 200, 'data': "Hello, world! update number passed to 4"}
+    return {'status': 200, 'data': "Finally works!"}
 
 
 @app.get("/file")
