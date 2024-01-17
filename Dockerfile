@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:3.9
 
 WORKDIR /code
 
@@ -6,7 +6,7 @@ EXPOSE 80
 
 COPY ./requirements.txt /code/requirements.txt
 
-RUN apt-get -y install gcc
+# RUN apt-get -y install gcc
 
 RUN pip install --upgrade pip
 
