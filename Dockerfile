@@ -6,7 +6,7 @@ EXPOSE 80
 
 COPY ./requirements.txt /code/requirements.txt
 
-RUN sudo apt-get install gcc
+RUN sudo apt-get -y install gcc
 
 RUN pip install --upgrade pip
 
